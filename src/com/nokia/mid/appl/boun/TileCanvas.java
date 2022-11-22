@@ -456,7 +456,7 @@ public abstract class TileCanvas extends FullCanvas {
         }
 
         if ((this.tileMap[var2][var1] & 128) != 0) {
-            this.tileMap[var2][var1] = (short)(this.tileMap[var2][var1] & 'ｿ');
+            this.tileMap[var2][var1] = (short)(this.tileMap[var2][var1] & 65407);
         }
 
         int var5 = this.tileMap[var2][var1];
@@ -465,7 +465,7 @@ public abstract class TileCanvas extends FullCanvas {
             var5 &= -65;
         }
 
-        this.bufferGraphics.setColor(var6 ? 1073328 : 11591920);
+        this.bufferGraphics.setColor(var6 ? 0x1060B0 : 0xB0E0F0);
         switch(var5) {
         case 0:
             this.bufferGraphics.fillRect(var3, var4, 12, 12);
@@ -528,10 +528,10 @@ public abstract class TileCanvas extends FullCanvas {
                 int var10 = this.mMOOffset[var7][0] - var8;
                 int var11 = this.mMOOffset[var7][1] - var9;
                 if ((var10 <= -36 || var10 >= 12) && (var11 <= -36 || var11 >= 12)) {
-                    this.bufferGraphics.setColor(11591920);
+                    this.bufferGraphics.setColor(0xB0E0F0);
                     this.bufferGraphics.fillRect(var3, var4, 12, 12);
                 } else {
-                    this.tmpTileImageG.setColor(11591920);
+                    this.tmpTileImageG.setColor(0xB0E0F0);
                     this.tmpTileImageG.fillRect(0, 0, 12, 12);
                     this.tmpTileImageG.drawImage(this.mSpikeImgPtr, var10, var11, 20);
                     this.bufferGraphics.drawImage(this.tmpTileImage, var3, var4, 20);
@@ -756,7 +756,7 @@ public abstract class TileCanvas extends FullCanvas {
 
             for(int var5 = 0; var5 < 8; ++var5) {
                 if ((this.tileMap[var3][var2] & 128) != 0) {
-                    this.tileMap[var3][var2] = (short)(this.tileMap[var3][var2] & 'ｿ');
+                    this.tileMap[var3][var2] = (short)(this.tileMap[var3][var2] & 65407);
                     if (var1) {
                         this.drawTile(var2, var3, var4 * 12, var5 * 12);
                     }
@@ -891,13 +891,13 @@ public abstract class TileCanvas extends FullCanvas {
     public Image createExitImage(Image var1) {
         Image var2 = Image.createImage(24, 48);
         Graphics var3 = var2.getGraphics();
-        var3.setColor(11591920);
+        var3.setColor(0xB0E0F0);
         var3.fillRect(0, 0, 24, 48);
-        var3.setColor(16555422);
+        var3.setColor(0xFC9D9E);
         var3.fillRect(4, 0, 16, 48);
-        var3.setColor(14891583);
+        var3.setColor(0xE33A3F);
         var3.fillRect(6, 0, 10, 48);
-        var3.setColor(12747918);
+        var3.setColor(0xC2848E);
         var3.fillRect(10, 0, 4, 48);
         var3.drawImage(var1, 0, 0, 20);
         var3.drawImage(manipulateImage(var1, 0), 12, 0, 20);

@@ -230,7 +230,7 @@ public class BounceCanvas extends TileCanvas {
             Image var1 = (Image)super.hoopImageList.firstElement();
             Integer var2 = (Integer)super.hoopXPosList.firstElement();
             Integer var3 = (Integer)super.hoopYPosList.firstElement();
-            super.bufferGraphics.drawImage(var1, var2, var3, 20);
+            super.bufferGraphics.drawImage(var1, var2.intValue(), var3.intValue(), 20);
             super.hoopImageList.removeElementAt(0);
             super.hoopXPosList.removeElementAt(0);
             super.hoopYPosList.removeElementAt(0);
@@ -246,13 +246,13 @@ public class BounceCanvas extends TileCanvas {
         }
 
         if (this.mLevelDisCntr != 0) {
-            this.mFullScreenGraphics.setColor(16777214);
+            this.mFullScreenGraphics.setColor(0xFFFFFE);
             this.mFullScreenGraphics.setFont(TEXT_FONT);
             this.mFullScreenGraphics.drawString(super.mLevelNumStr, 44, 84, 20);
         }
 
         if (this.mPaintUIFlag) {
-            this.mFullScreenGraphics.setColor(545706);
+            this.mFullScreenGraphics.setColor(0x0853AA);
             this.mFullScreenGraphics.fillRect(0, 97, 128, 32);
 
             for(int var4 = 0; var4 < this.numLives; ++var4) {
@@ -263,10 +263,10 @@ public class BounceCanvas extends TileCanvas {
                 this.mFullScreenGraphics.drawImage(super.mUIRing, 5 + var5 * (super.mUIRing.getWidth() - 1), 112, 20);
             }
 
-            this.mFullScreenGraphics.setColor(16777214);
+            this.mFullScreenGraphics.setColor(0xFFFFFE);
             this.mFullScreenGraphics.drawString(zeroString(this.mScore), 64, 100, 20);
             if (this.bonusCntrValue != 0) {
-                this.mFullScreenGraphics.setColor(16750611);
+                this.mFullScreenGraphics.setColor(0xFF9813);
                 this.mFullScreenGraphics.fillRect(1, 128 - 3 * this.bonusCntrValue / 30, 5, 128);
             }
 
@@ -559,7 +559,7 @@ public class BounceCanvas extends TileCanvas {
 
     protected Sound loadSound(String var1) {
         byte[] var3 = new byte[100];
-        Object var5 = null;
+        Sound var9 = null;
         DataInputStream var2 = new DataInputStream(this.getClass().getResourceAsStream(var1));
 
         try {
