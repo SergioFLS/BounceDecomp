@@ -2,11 +2,11 @@
 // Class Version: 1
 package com.nokia.mid.appl.boun;
 
+import com.nokia.mid.sound.Sound;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 public class Ball {
-    private static final boolean CD_DEBUG = false;
     private boolean mDebugCD = false;
     public int xPos;
     public int yPos;
@@ -16,10 +16,11 @@ public class Ball {
     public int xSpeed;
     public int ySpeed;
     public int direction;
-    public int ballSize;
+    public int mBallSize;
     public int mHalfBallSize;
     public int respawnX;
     public int respawnY;
+    public int respawnSize;
     public int ballState;
     public int jumpOffset;
     public int speedBonusCntr;
@@ -28,55 +29,12 @@ public class Ball {
     public boolean mGroundedFlag;
     public boolean mCDRubberFlag;
     public boolean mCDRampFlag;
-    public boolean mCDEdgeFlag;
     public int slideCntr;
-    public static final int MOVE_UP = 8;
-    public static final int MOVE_DOWN = 4;
-    public static final int MOVE_RIGHT = 2;
-    public static final int MOVE_LEFT = 1;
-    public static final int MOVE_STAT = 0;
-    public static final int SMALL_SIZE_STATE = 0;
-    public static final int LARGE_SIZE_STATE = 1;
-    public static final int NORMAL_SIZE = 12;
-    public static final int HALF_NORMAL_SIZE = 6;
-    public static final int POPPED_SIZE = 12;
-    public static final int HALF_POPPED_SIZE = 6;
-    public static final int ENLARGED_SIZE = 16;
-    public static final int HALF_ENLARGED_SIZE = 8;
-    public static final int BALL_STATE_NORMAL = 0;
-    public static final int BALL_STATE_DEAD = 1;
-    public static final int BALL_STATE_POPPED = 2;
-    public static final int POPPED_FRAMES = 5;
-    public static final int BONUS_DURATION = 300;
-    public static final int THIN_TILE_SIZE = 4;
     public static final byte[][] TRI_TILE_DATA = new byte[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1}, {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1}, {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1}, {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     public static final byte[][] SMALL_BALL_DATA = new byte[][]{{0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0}, {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0}};
     public static final byte[][] LARGE_BALL_DATA = new byte[][]{{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0}, {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0}, {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}, {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}};
-    public static final int JUMP_STRENGTH = -67;
-    public static final int JUMP_STRENGTH_INC = -10;
-    public static final int JUMP_BONUS_STRENGTH = -80;
-    public static final int NORMAL_GRAVITY_ACCELL = 4;
-    public static final int UWATER_GRAVITY_ACCELL = 6;
-    public static final int LARGE_GRAVITY_ACCELL = 3;
-    public static final int LARGE_UWATER_GRAVITY_ACCELL = -2;
-    public static final int BASE_GRAVITY = 10;
-    public static final int BOUNCE_NUMERATOR = -1;
-    public static final int BOUNCE_DENOMINATOR = 2;
-    public static final int ROOF_COLLISION_SPEED = 6;
-    public static final int MIN_BOUNCE_SPEED = 10;
-    public static final int MAX_HORZ_SPEED = 50;
-    public static final int HORZ_ACCELL = 6;
-    public static final int FRICTION_DECELL = 4;
-    public static final int NORMAL_MAX_GRAVITY = 80;
-    public static final int UWATER_MAX_GRAVITY = 42;
-    public static final int LARGE_MAX_GRAVITY = 38;
-    public static final int UWATER_LARGE_MAX_GRAVITY = -30;
-    public static final int RING_POINTS = 500;
-    public static final int GEM_POINTS = 200;
-    public static final int LIFE_POINTS = 1000;
-    public static final int EXIT_POINTS = 5000;
-    public BounceCanvas myParent;
-    public Image ballImage;
+    public BounceCanvas mCanvas;
+    public Image mBallImage;
     public Image poppedImage;
     public Image largeBallImage;
     public Image smallBallImage;
@@ -90,7 +48,7 @@ public class Ball {
         this.xSpeed = 0;
         this.ySpeed = 0;
         this.xOffset = 0;
-        this.myParent = var4;
+        this.mCanvas = var4;
         this.jumpOffset = 0;
         this.mGroundedFlag = false;
         this.mCDRubberFlag = false;
@@ -102,15 +60,14 @@ public class Ball {
         this.slideCntr = 0;
         this.ballState = 0;
         this.direction = 0;
-        this.myParent.setBallImages(this);
-        if (var3 == 0) {
-            this.ballSize = 12;
+        this.mCanvas.setBallImages(this);
+        this.mBallSize = var3;
+        if (this.mBallSize == 12) {
             this.mHalfBallSize = 6;
-            this.ballImage = this.smallBallImage;
-        } else if (var3 == 1) {
-            this.ballSize = 16;
+            this.mBallImage = this.smallBallImage;
+        } else {
             this.mHalfBallSize = 8;
-            this.ballImage = this.largeBallImage;
+            this.mBallImage = this.largeBallImage;
         }
 
     }
@@ -118,12 +75,7 @@ public class Ball {
     public void setRespawn(int var1, int var2) {
         this.respawnX = var1;
         this.respawnY = var2;
-        if (this.ballSize == 16) {
-            this.myParent.mBallSize = 1;
-        } else {
-            this.myParent.mBallSize = 0;
-        }
-
+        this.respawnSize = this.mBallSize;
     }
 
     public void setDirection(int var1) {
@@ -140,38 +92,41 @@ public class Ball {
 
     }
 
+    public void resetDirections() {
+        this.direction &= -16;
+    }
+
     public boolean collisionDetection(int var1, int var2) {
-        int var3 = 0;
+        byte var3 = 0;
         if (var2 < 0) {
-            var3 = Math.abs(var2) / 12 + 1;
-            var2 = 0;
+            var3 = 12;
         }
 
         int var4 = (var1 - this.mHalfBallSize) / 12;
-        int var5 = (var2 - this.mHalfBallSize) / 12 - var3;
+        int var5 = (var2 - var3 - this.mHalfBallSize) / 12;
         this.globalBallX = var1 - this.mHalfBallSize;
-        this.globalBallY = var2 - this.mHalfBallSize - var3 * 12;
-        if (this.xPos < this.myParent.divisorLine) {
-            this.globalBallX += this.myParent.tileX * 12;
-            this.globalBallY += this.myParent.tileY * 12;
+        this.globalBallY = var2 - this.mHalfBallSize;
+        if (this.xPos < this.mCanvas.divisorLine) {
+            this.globalBallX += this.mCanvas.tileX * 12;
+            this.globalBallY += this.mCanvas.tileY * 12;
         } else {
-            this.globalBallX += (this.myParent.divTileX - 13) * 12 - this.myParent.divisorLine;
-            this.globalBallY += this.myParent.divTileY * 12;
+            this.globalBallX += (this.mCanvas.divTileX - 13) * 12 - this.mCanvas.divisorLine;
+            this.globalBallY += this.mCanvas.divTileY * 12;
         }
 
         int var6 = (var1 - 1 + this.mHalfBallSize) / 12 + 1;
-        int var7 = (var2 - 1 + this.mHalfBallSize) / 12 + 1;
+        int var7 = (var2 - var3 - 1 + this.mHalfBallSize) / 12 + 1;
         boolean var8 = true;
 
         for(int var9 = var4; var9 < var6; ++var9) {
             for(int var10 = var5; var10 < var7; ++var10) {
                 if (var9 * 12 > 156) {
-                    var8 = this.testTile(this.myParent.tileY + var10, this.myParent.tileX + var9 - 13, var8);
-                } else if (this.xPos < this.myParent.divisorLine) {
-                    var8 = this.testTile(this.myParent.tileY + var10, this.myParent.tileX + var9, var8);
+                    var8 = this.testTile(this.mCanvas.tileY + var10, this.mCanvas.tileX + var9 - 13, var8);
+                } else if (this.xPos < this.mCanvas.divisorLine) {
+                    var8 = this.testTile(this.mCanvas.tileY + var10, this.mCanvas.tileX + var9, var8);
                 } else {
-                    int var11 = this.myParent.divTileX - 13 - this.myParent.divisorLine / 12;
-                    var8 = this.testTile(this.myParent.divTileY + var10, var11 + var9, var8);
+                    int var11 = this.mCanvas.divTileX - 13 - this.mCanvas.divisorLine / 12;
+                    var8 = this.testTile(this.mCanvas.divTileY + var10, var11 + var9, var8);
                 }
             }
         }
@@ -181,9 +136,9 @@ public class Ball {
 
     public void enlargeBall() {
         int var1 = 2;
-        this.ballSize = 16;
+        this.mBallSize = 16;
         this.mHalfBallSize = 8;
-        this.ballImage = this.largeBallImage;
+        this.mBallImage = this.largeBallImage;
         boolean var2 = false;
 
         while(!var2) {
@@ -214,9 +169,9 @@ public class Ball {
 
     public void shrinkBall() {
         byte var1 = 2;
-        this.ballSize = 12;
+        this.mBallSize = 12;
         this.mHalfBallSize = 6;
-        this.ballImage = this.smallBallImage;
+        this.mBallImage = this.smallBallImage;
         if (this.collisionDetection(this.xPos, this.yPos + var1)) {
             this.yPos += var1;
         } else if (this.collisionDetection(this.xPos, this.yPos - var1)) {
@@ -226,41 +181,59 @@ public class Ball {
     }
 
     public void popBall() {
-        if (!this.myParent.mInvincible) {
+        if (!this.mCanvas.mInvincible) {
             this.popCntr = 5;
             this.ballState = 2;
             this.xOffset = 0;
-            --this.myParent.numLives;
+            --this.mCanvas.numLives;
             this.speedBonusCntr = 0;
             this.gravBonusCntr = 0;
             this.jumpBonusCntr = 0;
-            this.myParent.mPaintUIFlag = true;
-            this.myParent.mSoundPop.play(1);
+            this.mCanvas.mPaintUIFlag = true;
+            this.mCanvas.mSoundPop.play(1);
         }
 
     }
 
     public void addRing() {
-        this.myParent.add2Score(500);
-        ++this.myParent.numRings;
-        this.myParent.mPaintUIFlag = true;
+        this.mCanvas.add2Score(500);
+        ++this.mCanvas.numRings;
+        this.mCanvas.mPaintUIFlag = true;
     }
 
     public void redirectBall(int var1) {
         int var2 = this.xSpeed;
         switch(var1) {
         case 30:
-        case 32:
-        case 34:
-        case 36:
-            this.xSpeed = -this.ySpeed;
+            this.xSpeed = this.xSpeed < this.ySpeed ? this.xSpeed : -(this.ySpeed >> 1);
             this.ySpeed = -var2;
             break;
         case 31:
+            this.xSpeed = this.xSpeed > -this.ySpeed ? this.xSpeed : this.ySpeed >> 1;
+            this.ySpeed = var2;
+            break;
+        case 32:
+            this.xSpeed = this.xSpeed > this.ySpeed ? this.xSpeed : -(this.ySpeed >> 1);
+            this.ySpeed = -var2;
+            break;
         case 33:
+            this.xSpeed = -this.xSpeed > this.ySpeed ? this.xSpeed : this.ySpeed >> 1;
+            this.ySpeed = var2;
+            break;
+        case 34:
+            this.xSpeed = this.xSpeed < this.ySpeed ? this.xSpeed : -this.ySpeed;
+            this.ySpeed = -var2;
+            break;
         case 35:
+            this.xSpeed = this.xSpeed > -this.ySpeed ? this.xSpeed : this.ySpeed;
+            this.ySpeed = var2;
+            break;
+        case 36:
+            this.xSpeed = this.xSpeed > this.ySpeed ? this.xSpeed : -this.ySpeed;
+            this.ySpeed = -var2;
+            break;
         case 37:
-            this.xSpeed = this.ySpeed;
+            this.xSpeed = -this.xSpeed > this.ySpeed ? this.xSpeed : this.ySpeed;
             this.ySpeed = var2;
         }
 
@@ -278,7 +251,7 @@ public class Ball {
             var8 = 12;
         } else {
             var7 = 0;
-            var8 = this.ballSize + var5;
+            var8 = this.mBallSize + var5;
         }
 
         int var9;
@@ -288,11 +261,11 @@ public class Ball {
             var10 = 12;
         } else {
             var9 = 0;
-            var10 = this.ballSize + var6;
+            var10 = this.mBallSize + var6;
         }
 
         byte[][] var11;
-        if (this.ballSize == 16) {
+        if (this.mBallSize == 16) {
             var11 = LARGE_BALL_DATA;
         } else {
             var11 = SMALL_BALL_DATA;
@@ -349,7 +322,7 @@ public class Ball {
             var11 = 12;
         } else {
             var10 = 0;
-            var11 = this.ballSize + var6;
+            var11 = this.mBallSize + var6;
         }
 
         int var12;
@@ -359,11 +332,11 @@ public class Ball {
             var13 = 12;
         } else {
             var12 = 0;
-            var13 = this.ballSize + var7;
+            var13 = this.mBallSize + var7;
         }
 
         byte[][] var14;
-        if (this.ballSize == 16) {
+        if (this.mBallSize == 16) {
             var14 = LARGE_BALL_DATA;
         } else {
             var14 = SMALL_BALL_DATA;
@@ -449,24 +422,75 @@ public class Ball {
         case 42:
         }
 
-        return TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.ballSize, this.globalBallY + this.ballSize, var4, var5, var6, var7);
+        return TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var4, var5, var6, var7);
+    }
+
+    public boolean edgeCollide(int var1, int var2, int var3) {
+        int var4 = var2 * 12;
+        int var5 = var1 * 12;
+        int var6 = var4 + 12;
+        int var7 = var5 + 12;
+        boolean var8 = false;
+        switch(var3) {
+        case 13:
+        case 17:
+            var4 += 6;
+            var6 -= 6;
+            var7 -= 11;
+            var8 = TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var4, var5, var6, var7);
+            break;
+        case 14:
+        case 18:
+        case 22:
+        case 26:
+            var4 += 6;
+            var6 -= 6;
+            var5 += 11;
+            var8 = TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var4, var5, var6, var7);
+            break;
+        case 15:
+        case 19:
+        case 23:
+        case 27:
+            var5 += 6;
+            var7 -= 6;
+            var6 -= 11;
+            var8 = TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var4, var5, var6, var7);
+            break;
+        case 16:
+        case 20:
+        case 24:
+        case 28:
+            var5 += 6;
+            var7 -= 6;
+            var4 += 11;
+            var8 = TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var4, var5, var6, var7);
+            break;
+        case 21:
+        case 25:
+            var7 = var5--;
+            var4 += 6;
+            var6 -= 6;
+            var8 = TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var4, var5, var6, var7);
+        }
+
+        return var8;
     }
 
     public boolean testTile(int var1, int var2, boolean var3) {
-        if (var1 < this.myParent.mTileMapHeight && var1 >= 0 && var2 < this.myParent.mTileMapWidth && var2 >= 0) {
+        if (var1 < this.mCanvas.mTileMapHeight && var1 >= 0 && var2 < this.mCanvas.mTileMapWidth && var2 >= 0) {
             if (this.ballState == 2) {
                 return false;
             } else {
-                int var4 = this.myParent.tileMap[var1][var2] & -65;
-                switch(var4) {
+                int var4 = this.mCanvas.tileMap[var1][var2] & 64;
+                int var5 = this.mCanvas.tileMap[var1][var2] & -65 & -129;
+                Sound var6 = null;
+                switch(var5) {
                 case 0:
                 case 8:
                 case 11:
                 case 12:
-                case 25:
                 case 26:
-                case 27:
-                case 28:
                 default:
                     break;
                 case 1:
@@ -488,134 +512,181 @@ public class Ball {
                 case 4:
                 case 5:
                 case 6:
-                    if (this.thinCollide(var1, var2, var4)) {
+                    if (this.thinCollide(var1, var2, var5)) {
                         var3 = false;
                         this.popBall();
                     }
                     break;
                 case 7:
-                    this.myParent.add2Score(200);
-                    this.myParent.tileMap[this.respawnY][this.respawnX] = 128;
+                    this.mCanvas.add2Score(200);
+                    this.mCanvas.tileMap[this.respawnY][this.respawnX] = 128;
                     this.setRespawn(var2, var1);
-                    this.myParent.tileMap[var1][var2] = 136;
-                    this.myParent.mSoundPickup.play(1);
+                    this.mCanvas.tileMap[var1][var2] = 136;
+                    var6 = this.mCanvas.mSoundPickup;
                     break;
                 case 9:
-                    if (this.thinCollide(var1, var2, var4) && this.myParent.mOpenFlag) {
-                        this.myParent.mExitFlag = true;
-                        this.myParent.mSoundPickup.play(1);
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.mCanvas.mOpenFlag) {
+                            this.mCanvas.mLeaveGame = true;
+                            var6 = this.mCanvas.mSoundPickup;
+                        } else {
+                            var3 = false;
+                        }
                     }
                     break;
                 case 10:
-                    int var5 = this.myParent.findSpikeIndex(var2, var1);
-                    if (var5 != -1) {
-                        int var6 = this.myParent.mMOTopLeft[var5][0] * 12 + this.myParent.mMOOffset[var5][0];
-                        int var7 = this.myParent.mMOTopLeft[var5][1] * 12 + this.myParent.mMOOffset[var5][1];
-                        if (TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.ballSize, this.globalBallY + this.ballSize, var6, var7, var6 + 24, var7 + 24)) {
+                    int var7 = this.mCanvas.findSpikeIndex(var2, var1);
+                    if (var7 != -1) {
+                        int var8 = this.mCanvas.mMOTopLeft[var7][0] * 12 + this.mCanvas.mMOOffset[var7][0];
+                        int var9 = this.mCanvas.mMOTopLeft[var7][1] * 12 + this.mCanvas.mMOOffset[var7][1];
+                        if (TileCanvas.rectCollide(this.globalBallX, this.globalBallY, this.globalBallX + this.mBallSize, this.globalBallY + this.mBallSize, var8, var9, var8 + 24, var9 + 24)) {
                             var3 = false;
                             this.popBall();
                         }
                     }
                     break;
                 case 13:
-                    if (this.thinCollide(var1, var2, var4)) {
-                        if (this.ballSize == 16) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.mBallSize == 16) {
                             var3 = false;
                         } else {
+                            if (this.edgeCollide(var1, var2, var5)) {
+                                var3 = false;
+                            }
+
                             this.addRing();
-                            this.myParent.tileMap[var1][var2] = 145;
-                            this.myParent.tileMap[var1 + 1][var2] = 146;
-                            this.myParent.mSoundHoop.play(1);
+                            this.mCanvas.tileMap[var1][var2] = (short)(145 | var4);
+                            this.mCanvas.tileMap[var1 + 1][var2] = (short)(146 | var4);
+                            var6 = this.mCanvas.mSoundHoop;
                         }
                     }
                     break;
                 case 14:
-                    if (this.thinCollide(var1, var2, var4)) {
-                        if (this.ballSize == 16) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.mBallSize == 16) {
                             var3 = false;
                         } else {
                             this.addRing();
-                            this.myParent.tileMap[var1][var2] = 146;
-                            this.myParent.tileMap[var1 - 1][var2] = 145;
+                            this.mCanvas.tileMap[var1][var2] = (short)(146 | var4);
+                            this.mCanvas.tileMap[var1 - 1][var2] = (short)(145 | var4);
+                            var6 = this.mCanvas.mSoundHoop;
                         }
                     }
                     break;
                 case 15:
-                    if (this.thinCollide(var1, var2, var4)) {
-                        if (this.ballSize == 16) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.mBallSize == 16) {
                             var3 = false;
                         } else {
+                            if (this.edgeCollide(var1, var2, var5)) {
+                                var3 = false;
+                            }
+
                             this.addRing();
-                            this.myParent.tileMap[var1][var2] = 147;
-                            this.myParent.tileMap[var1][var2 + 1] = 148;
-                            this.myParent.mSoundHoop.play(1);
+                            this.mCanvas.tileMap[var1][var2] = (short)(147 | var4);
+                            this.mCanvas.tileMap[var1][var2 + 1] = (short)(148 | var4);
+                            var6 = this.mCanvas.mSoundHoop;
                         }
                     }
                     break;
                 case 16:
-                    if (this.thinCollide(var1, var2, var4)) {
-                        if (this.ballSize == 16) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.mBallSize == 16) {
                             var3 = false;
                         } else {
+                            if (this.edgeCollide(var1, var2, var5)) {
+                                var3 = false;
+                            }
+
                             this.addRing();
-                            this.myParent.tileMap[var1][var2] = 148;
-                            this.myParent.tileMap[var1][var2 - 1] = 147;
+                            this.mCanvas.tileMap[var1][var2] = (short)(148 | var4);
+                            this.mCanvas.tileMap[var1][var2 - 1] = (short)(147 | var4);
+                            var6 = this.mCanvas.mSoundHoop;
                         }
                     }
                     break;
                 case 17:
-                case 18:
                 case 19:
                 case 20:
-                    if (this.thinCollide(var1, var2, var4) && this.ballSize == 16) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.mBallSize == 16) {
+                            var3 = false;
+                        } else if (this.edgeCollide(var1, var2, var5)) {
+                            var3 = false;
+                        }
+                    }
+                    break;
+                case 18:
+                    if (this.thinCollide(var1, var2, var5) && this.mBallSize == 16) {
                         var3 = false;
                     }
                     break;
                 case 21:
-                    if (this.thinCollide(var1, var2, var4)) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.edgeCollide(var1, var2, var5)) {
+                            var3 = false;
+                        }
+
                         this.addRing();
-                        this.myParent.tileMap[var1][var2] = 153;
-                        this.myParent.tileMap[var1 + 1][var2] = 154;
-                        this.myParent.mSoundHoop.play(1);
+                        this.mCanvas.tileMap[var1][var2] = (short)(153 | var4);
+                        this.mCanvas.tileMap[var1 + 1][var2] = (short)(154 | var4);
+                        var6 = this.mCanvas.mSoundHoop;
                     }
                     break;
                 case 22:
-                    if (this.thinCollide(var1, var2, var4)) {
+                    if (this.thinCollide(var1, var2, var5)) {
                         this.addRing();
-                        this.myParent.tileMap[var1][var2] = 154;
-                        this.myParent.tileMap[var1 - 1][var2] = 153;
+                        this.mCanvas.tileMap[var1][var2] = (short)(154 | var4);
+                        this.mCanvas.tileMap[var1 - 1][var2] = (short)(153 | var4);
+                        var6 = this.mCanvas.mSoundHoop;
                     }
                     break;
                 case 23:
-                    if (this.thinCollide(var1, var2, var4)) {
-                        this.addRing();
-                        this.myParent.tileMap[var1][var2] = 155;
-                        this.myParent.tileMap[var1][var2 + 1] = 156;
-                        this.myParent.mSoundHoop.play(1);
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.edgeCollide(var1, var2, var5)) {
+                            var3 = false;
+                        } else {
+                            this.addRing();
+                            this.mCanvas.tileMap[var1][var2] = (short)(155 | var4);
+                            this.mCanvas.tileMap[var1][var2 + 1] = (short)(156 | var4);
+                            var6 = this.mCanvas.mSoundHoop;
+                        }
                     }
                     break;
                 case 24:
-                    if (this.thinCollide(var1, var2, var4)) {
+                    if (this.thinCollide(var1, var2, var5)) {
+                        if (this.edgeCollide(var1, var2, var5)) {
+                            var3 = false;
+                        }
+
                         this.addRing();
-                        this.myParent.tileMap[var1][var2] = 156;
-                        this.myParent.tileMap[var1][var2 - 1] = 155;
+                        this.mCanvas.tileMap[var1][var2] = (short)(156 | var4);
+                        this.mCanvas.tileMap[var1][var2 - 1] = (short)(155 | var4);
+                        var6 = this.mCanvas.mSoundHoop;
+                    }
+                    break;
+                case 25:
+                case 27:
+                case 28:
+                    if (this.edgeCollide(var1, var2, var5)) {
+                        var3 = false;
                     }
                     break;
                 case 29:
-                    this.myParent.add2Score(1000);
-                    if (this.myParent.numLives < 5) {
-                        ++this.myParent.numLives;
-                        this.myParent.mPaintUIFlag = true;
+                    this.mCanvas.add2Score(1000);
+                    if (this.mCanvas.numLives < 5) {
+                        ++this.mCanvas.numLives;
+                        this.mCanvas.mPaintUIFlag = true;
                     }
 
-                    this.myParent.tileMap[var1][var2] = 128;
-                    this.myParent.mSoundPickup.play(1);
+                    this.mCanvas.tileMap[var1][var2] = 128;
+                    var6 = this.mCanvas.mSoundPickup;
                     break;
                 case 30:
                 case 31:
                 case 32:
                 case 33:
-                    if (this.triangleCollide(var1, var2, var4)) {
+                    if (this.triangleCollide(var1, var2, var5)) {
                         var3 = false;
                         this.mCDRampFlag = true;
                     }
@@ -624,7 +695,7 @@ public class Ball {
                 case 35:
                 case 36:
                 case 37:
-                    if (this.triangleCollide(var1, var2, var4)) {
+                    if (this.triangleCollide(var1, var2, var5)) {
                         this.mCDRubberFlag = true;
                         var3 = false;
                         this.mCDRampFlag = true;
@@ -632,7 +703,7 @@ public class Ball {
                     break;
                 case 38:
                     this.speedBonusCntr = 300;
-                    this.myParent.mSoundPickup.play(1);
+                    var6 = this.mCanvas.mSoundPickup;
                     var3 = false;
                     break;
                 case 39:
@@ -640,7 +711,7 @@ public class Ball {
                 case 41:
                 case 42:
                     var3 = false;
-                    if (this.ballSize == 16) {
+                    if (this.mBallSize == 16) {
                         this.shrinkBall();
                     }
                     break;
@@ -648,9 +719,9 @@ public class Ball {
                 case 44:
                 case 45:
                 case 46:
-                    if (this.thinCollide(var1, var2, var4)) {
+                    if (this.thinCollide(var1, var2, var5)) {
                         var3 = false;
-                        if (this.ballSize == 12) {
+                        if (this.mBallSize == 12) {
                             this.enlargeBall();
                         }
                     }
@@ -660,7 +731,7 @@ public class Ball {
                 case 49:
                 case 50:
                     this.gravBonusCntr = 300;
-                    this.myParent.mSoundPickup.play(1);
+                    var6 = this.mCanvas.mSoundPickup;
                     var3 = false;
                     break;
                 case 51:
@@ -668,8 +739,12 @@ public class Ball {
                 case 53:
                 case 54:
                     this.jumpBonusCntr = 300;
-                    this.myParent.mSoundPickup.play(1);
+                    var6 = this.mCanvas.mSoundPickup;
                     var3 = false;
+                }
+
+                if (var6 != null) {
+                    var6.play(1);
                 }
 
                 return var3;
@@ -691,8 +766,8 @@ public class Ball {
             --this.popCntr;
             if (this.popCntr == 0) {
                 this.ballState = 1;
-                if (this.myParent.numLives < 0) {
-                    this.myParent.mExitFlag = true;
+                if (this.mCanvas.numLives < 0) {
+                    this.mCanvas.mLeaveGame = true;
                 }
             }
 
@@ -700,18 +775,18 @@ public class Ball {
             int var6 = this.xPos / 12;
             int var7 = this.yPos / 12;
             if (this.xPos >= 156) {
-                var6 = this.myParent.tileX + var6 - 13;
-                var7 = this.myParent.tileY + var7;
-            } else if (this.xPos < this.myParent.divisorLine) {
-                var6 = this.myParent.tileX + var6;
-                var7 = this.myParent.tileY + var7;
+                var6 = this.mCanvas.tileX + var6 - 13;
+                var7 = this.mCanvas.tileY + var7;
+            } else if (this.xPos < this.mCanvas.divisorLine) {
+                var6 = this.mCanvas.tileX + var6;
+                var7 = this.mCanvas.tileY + var7;
             } else {
-                var6 = this.myParent.divTileX - 13 - this.myParent.divisorLine / 12 + var6;
-                var7 = this.myParent.divTileY + var7;
+                var6 = this.mCanvas.divTileX - 13 - this.mCanvas.divisorLine / 12 + var6;
+                var7 = this.mCanvas.divTileY + var7;
             }
 
-            if ((this.myParent.tileMap[var7][var6] & 64) != 0) {
-                if (this.ballSize == 16) {
+            if ((this.mCanvas.tileMap[var7][var6] & 64) != 0) {
+                if (this.mBallSize == 16) {
                     var3 = -30;
                     var2 = -2;
                     if (this.mGroundedFlag) {
@@ -721,7 +796,7 @@ public class Ball {
                     var3 = 42;
                     var2 = 6;
                 }
-            } else if (this.ballSize == 16) {
+            } else if (this.mBallSize == 16) {
                 var3 = 38;
                 var2 = 3;
             } else {
@@ -759,19 +834,31 @@ public class Ball {
                 this.slideCntr = 0;
             }
 
+            if (this.ySpeed < -150) {
+                this.ySpeed = -150;
+            } else if (this.ySpeed > 150) {
+                this.ySpeed = 150;
+            }
+
+            if (this.xSpeed < -150) {
+                this.xSpeed = -150;
+            } else if (this.xSpeed > 150) {
+                this.xSpeed = 150;
+            }
+
             for(int var8 = 0; var8 < Math.abs(this.ySpeed) / 10; ++var8) {
                 int var9 = 0;
                 if (this.ySpeed != 0) {
-                    var9 = this.ySpeed / Math.abs(this.ySpeed);
+                    var9 = this.ySpeed < 0 ? -1 : 1;
                 }
 
                 if (this.collisionDetection(this.xPos, this.yPos + var9)) {
                     this.yPos += var9;
                     this.mGroundedFlag = false;
                     if (var3 == -30) {
-                        var7 = this.myParent.tileY + this.yPos / 12;
-                        if ((this.myParent.tileMap[var7][var6] & 64) == 0) {
-                            this.ySpeed /= 2;
+                        var7 = this.mCanvas.tileY + this.yPos / 12;
+                        if ((this.mCanvas.tileMap[var7][var6] & 64) == 0) {
+                            this.ySpeed >>= 1;
                             if (this.ySpeed <= 10 && this.ySpeed >= -10) {
                                 this.ySpeed = 0;
                             }
@@ -791,15 +878,7 @@ public class Ball {
                         }
                     }
 
-                    if (var9 <= 0 && (!var5 || var9 >= 0)) {
-                        if (var9 < 0 || var5 && var9 > 0) {
-                            if (var5) {
-                                this.ySpeed = -6;
-                            } else {
-                                this.ySpeed = 6;
-                            }
-                        }
-                    } else {
+                    if (var9 > 0 || var5 && var9 < 0) {
                         this.ySpeed = this.ySpeed * -1 / 2;
                         this.mGroundedFlag = true;
                         if (this.mCDRubberFlag && (this.direction & 8) != 0) {
@@ -819,6 +898,15 @@ public class Ball {
                             } else {
                                 this.ySpeed = 10;
                             }
+                        }
+                        break;
+                    }
+
+                    if (var9 < 0 || var5 && var9 > 0) {
+                        if (var5) {
+                            this.ySpeed = -20;
+                        } else {
+                            this.ySpeed = -this.ySpeed >> 1;
                         }
                     }
                 }
@@ -865,7 +953,7 @@ public class Ball {
                 this.xSpeed += 4;
             }
 
-            if (this.ballSize == 16 && this.jumpBonusCntr == 0) {
+            if (this.mBallSize == 16 && this.jumpBonusCntr == 0) {
                 if (var5) {
                     this.jumpOffset += 5;
                 } else {
@@ -909,17 +997,25 @@ public class Ball {
                     } else if (this.collisionDetection(this.xPos + var12, this.yPos - var13)) {
                         this.xPos += var12;
                         this.yPos -= var13;
+                    } else {
+                        this.xSpeed = -(this.xSpeed >> 1);
                     }
                 }
             }
 
             this.xOffset = this.xPos - var1;
-            if (this.xPos > 156 + this.ballSize) {
+            if (this.xPos > 156 + this.mBallSize) {
                 this.xPos -= 156;
+                if (this.mCanvas.scrollOffset - 10 > 156 + this.mBallSize) {
+                    this.mCanvas.scrollOffset -= 156;
+                }
             }
 
-            if (this.xPos - this.ballSize < 0) {
+            if (this.xPos - this.mBallSize < 0) {
                 this.xPos += 156;
+                if (this.mCanvas.scrollOffset - this.mBallSize < 10) {
+                    this.mCanvas.scrollOffset += 156;
+                }
             }
 
         }
@@ -932,9 +1028,9 @@ public class Ball {
                 var1.drawImage(this.poppedImage, this.xPos - 156 - 6, this.yPos - 6, 20);
             }
         } else {
-            var1.drawImage(this.ballImage, this.xPos - this.mHalfBallSize, this.yPos - this.mHalfBallSize, 20);
-            if (this.xPos > 156 - this.ballSize) {
-                var1.drawImage(this.ballImage, this.xPos - 156 - this.mHalfBallSize, this.yPos - this.mHalfBallSize, 20);
+            var1.drawImage(this.mBallImage, this.xPos - this.mHalfBallSize, this.yPos - this.mHalfBallSize, 20);
+            if (this.xPos > 156 - this.mBallSize) {
+                var1.drawImage(this.mBallImage, this.xPos - 156 - this.mHalfBallSize, this.yPos - this.mHalfBallSize, 20);
             }
         }
 
@@ -960,17 +1056,17 @@ public class Ball {
         for(int var7 = var1; var7 < var3; ++var7) {
             for(int var8 = var2; var8 < var4; ++var8) {
                 if (var7 * 12 >= 156) {
-                    var5 = this.myParent.tileX + var7 - 13;
-                    var6 = this.myParent.tileY + var8;
-                } else if (this.xPos < this.myParent.divisorLine) {
-                    var5 = this.myParent.tileX + var7;
-                    var6 = this.myParent.tileY + var8;
+                    var5 = this.mCanvas.tileX + var7 - 13;
+                    var6 = this.mCanvas.tileY + var8;
+                } else if (this.xPos < this.mCanvas.divisorLine) {
+                    var5 = this.mCanvas.tileX + var7;
+                    var6 = this.mCanvas.tileY + var8;
                 } else {
-                    var5 = this.myParent.divTileX - 13 - this.myParent.divisorLine / 12 + var7;
-                    var6 = this.myParent.divTileY + var8;
+                    var5 = this.mCanvas.divTileX - 13 - this.mCanvas.divisorLine / 12 + var7;
+                    var6 = this.mCanvas.divTileY + var8;
                 }
 
-                this.myParent.tileMap[var6][var5] = (short)(this.myParent.tileMap[var6][var5] | 128);
+                this.mCanvas.tileMap[var6][var5] = (short)(this.mCanvas.tileMap[var6][var5] | 128);
             }
         }
 

@@ -16,7 +16,6 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 public abstract class TileCanvas extends FullCanvas {
-    private static final boolean SCR_DEBUG = false;
     public int tileX;
     public int tileY;
     public int divTileX;
@@ -27,148 +26,8 @@ public abstract class TileCanvas extends FullCanvas {
     public boolean scrollFlag;
     public int scrollOffset;
     public int mExitPos;
-    protected Image buffer;
-    public Graphics bufferGraphics = null;
-    public static final int LEFT_START_POS = 14;
-    public static final int RIGHT_START_POS = 142;
-    public static final int SCREEN_WIDTH = 128;
-    public static final int SCREEN_HEIGHT = 128;
-    public static final int BUFFER_WIDTH = 156;
-    public static final int BUFFER_HEIGHT = 96;
-    public static final int BUFFER_TILE_WIDTH = 13;
-    public static final int BUFFER_TILE_HEIGHT = 8;
-    public static final int TILE_SIZE = 12;
-    public static final int SPIKE_SIZE = 24;
-    public static final int TILE_DIRTY = 128;
-    public static final int TILE_DIRTY_MASK = 65407;
-    public static final int X = 0;
-    public static final int Y = 1;
-    public static final int ID_EMPTY_SPACE = 0;
-    public static final int ID_BRICK_RED = 1;
-    public static final int ID_BRICK_BLUE = 2;
-    public static final int ID_SPIKE_FLOOR = 3;
-    public static final int ID_SPIKE_LEFT_WALL = 4;
-    public static final int ID_SPIKE_CEILING = 5;
-    public static final int ID_SPIKE_RIGHT_WALL = 6;
-    public static final int ID_RESPAWN_GEM = 7;
-    public static final int ID_RESPAWN_INDICATOR = 8;
-    public static final int ID_EXIT_TILE = 9;
-    public static final int ID_MOVING_SPIKE_TILE = 10;
-    public static final int ID_HOOP_ACTIVE_VERT_TOP = 13;
-    public static final int ID_HOOP_ACTIVE_VERT_BOTTOM = 14;
-    public static final int ID_HOOP_ACTIVE_HORIZ_LEFT = 15;
-    public static final int ID_HOOP_ACTIVE_HORIZ_RIGHT = 16;
-    public static final int ID_HOOP_INACTIVE_VERT_TOP = 17;
-    public static final int ID_HOOP_INACTIVE_VERT_BOTTOM = 18;
-    public static final int ID_HOOP_INACTIVE_HORIZ_LEFT = 19;
-    public static final int ID_HOOP_INACTIVE_HORIZ_RIGHT = 20;
-    public static final int ID_LARGE_HOOP_ACTIVE_VERT_TOP = 21;
-    public static final int ID_LARGE_HOOP_ACTIVE_VERT_BOTTOM = 22;
-    public static final int ID_LARGE_HOOP_ACTIVE_HORIZ_LEFT = 23;
-    public static final int ID_LARGE_HOOP_ACTIVE_HORIZ_RIGHT = 24;
-    public static final int ID_LARGE_HOOP_INACTIVE_VERT_TOP = 25;
-    public static final int ID_LARGE_HOOP_INACTIVE_VERT_BOTTOM = 26;
-    public static final int ID_LARGE_HOOP_INACTIVE_HORIZ_LEFT = 27;
-    public static final int ID_LARGE_HOOP_INACTIVE_HORIZ_RIGHT = 28;
-    public static final int ID_EXTRA_LIFE = 29;
-    public static final int ID_TRIANGLE_TOP_LEFT = 30;
-    public static final int ID_TRIANGLE_TOP_RIGHT = 31;
-    public static final int ID_TRIANGLE_BOT_RIGHT = 32;
-    public static final int ID_TRIANGLE_BOT_LEFT = 33;
-    public static final int ID_RUBBER_TRIANGLE_TOP_LEFT = 34;
-    public static final int ID_RUBBER_TRIANGLE_TOP_RIGHT = 35;
-    public static final int ID_RUBBER_TRIANGLE_BOT_RIGHT = 36;
-    public static final int ID_RUBBER_TRIANGLE_BOT_LEFT = 37;
-    public static final int ID_SPEED = 38;
-    public static final int ID_DEFLATOR_FLOOR = 39;
-    public static final int ID_DEFLATOR_LEFT_WALL = 40;
-    public static final int ID_DEFLATOR_CEILING = 41;
-    public static final int ID_DEFLATOR_RIGHT_WALL = 42;
-    public static final int ID_INFLATOR_FLOOR = 43;
-    public static final int ID_INFLATOR_LEFT_WALL = 44;
-    public static final int ID_INFLATOR_CEILING = 45;
-    public static final int ID_INFLATOR_RIGHT_WALL = 46;
-    public static final int ID_GRAVITY_FLOOR = 47;
-    public static final int ID_GRAVITY_LEFT_WALL = 48;
-    public static final int ID_GRAVITY_CEILING = 49;
-    public static final int ID_GRAVITY_RIGHT_WALL = 50;
-    public static final int ID_JUMP_FLOOR = 51;
-    public static final int ID_JUMP_LEFT_WALL = 52;
-    public static final int ID_JUMP_CEILING = 53;
-    public static final int ID_JUMP_RIGHT_WALL = 54;
-    public static final int ID_WATER_FLAG = 64;
-    public static final int IMG_BRICKS_RED_NORMAL = 0;
-    public static final int IMG_BRICKS_BLUE_RUBBER = 1;
-    public static final int IMG_SPIKES_UPWARD = 2;
-    public static final int IMG_SPIKES_DOWNWARD = 3;
-    public static final int IMG_SPIKES_LEFT = 4;
-    public static final int IMG_SPIKES_RIGHT = 5;
-    public static final int IMG_SPIKES_WET_UPWARD = 6;
-    public static final int IMG_SPIKES_WET_DOWNWARD = 7;
-    public static final int IMG_SPIKES_WET_LEFT = 8;
-    public static final int IMG_SPIKES_WET_RIGHT = 9;
-    public static final int IMG_RESPAWN_GEM = 10;
-    public static final int IMG_RESPAWN_INDICATOR = 11;
-    public static final int IMG_EXIT = 12;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_TOP_LEFT_LARGE = 13;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_BOT_LEFT_LARGE = 14;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_TOP_RIGHT_LARGE = 15;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_BOT_RIGHT_LARGE = 16;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_TOP_LEFT_SMALL = 17;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_BOT_LEFT_SMALL = 18;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_TOP_RIGHT_SMALL = 19;
-    public static final int IMG_HOOP_ACTIVE_HORIZ_BOT_RIGHT_SMALL = 20;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_TOP_LEFT_LARGE = 21;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_BOT_LEFT_LARGE = 22;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_TOP_RIGHT_LARGE = 23;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_BOT_RIGHT_LARGE = 24;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_TOP_LEFT_SMALL = 25;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_BOT_LEFT_SMALL = 26;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_TOP_RIGHT_SMALL = 27;
-    public static final int IMG_HOOP_INACTIVE_HORIZ_BOT_RIGHT_SMALL = 28;
-    public static final int IMG_HOOP_ACTIVE_VERT_TOP_LEFT_LARGE = 29;
-    public static final int IMG_HOOP_ACTIVE_VERT_BOT_LEFT_LARGE = 30;
-    public static final int IMG_HOOP_ACTIVE_VERT_TOP_RIGHT_LARGE = 31;
-    public static final int IMG_HOOP_ACTIVE_VERT_BOT_RIGHT_LARGE = 32;
-    public static final int IMG_HOOP_ACTIVE_VERT_TOP_LEFT_SMALL = 33;
-    public static final int IMG_HOOP_ACTIVE_VERT_BOT_LEFT_SMALL = 34;
-    public static final int IMG_HOOP_ACTIVE_VERT_TOP_RIGHT_SMALL = 35;
-    public static final int IMG_HOOP_ACTIVE_VERT_BOT_RIGHT_SMALL = 36;
-    public static final int IMG_HOOP_INACTIVE_VERT_TOP_LEFT_LARGE = 37;
-    public static final int IMG_HOOP_INACTIVE_VERT_BOT_LEFT_LARGE = 38;
-    public static final int IMG_HOOP_INACTIVE_VERT_TOP_RIGHT_LARGE = 39;
-    public static final int IMG_HOOP_INACTIVE_VERT_BOT_RIGHT_LARGE = 40;
-    public static final int IMG_HOOP_INACTIVE_VERT_TOP_LEFT_SMALL = 41;
-    public static final int IMG_HOOP_INACTIVE_VERT_BOT_LEFT_SMALL = 42;
-    public static final int IMG_HOOP_INACTIVE_VERT_TOP_RIGHT_SMALL = 43;
-    public static final int IMG_HOOP_INACTIVE_VERT_BOT_RIGHT_SMALL = 44;
-    public static final int IMG_EXTRA_LIFE = 45;
-    public static final int IMG_MOVING_SPIKE = 46;
-    public static final int IMG_SMALL_BALL = 47;
-    public static final int IMG_POPPED_BALL = 48;
-    public static final int IMG_LARGE_BALL = 49;
-    public static final int IMG_DEFLATOR = 50;
-    public static final int IMG_INFLATOR = 51;
-    public static final int IMG_GRAVITY = 52;
-    public static final int IMG_SPEED = 53;
-    public static final int IMG_JUMP = 54;
-    public static final int IMG_TRI_BOT_RIGHT = 55;
-    public static final int IMG_TRI_TOP_RIGHT = 56;
-    public static final int IMG_TRI_TOP_LEFT = 57;
-    public static final int IMG_TRI_BOT_LEFT = 58;
-    public static final int IMG_TRI_WET_BOT_RIGHT = 59;
-    public static final int IMG_TRI_WET_TOP_RIGHT = 60;
-    public static final int IMG_TRI_WET_TOP_LEFT = 61;
-    public static final int IMG_TRI_WET_BOT_LEFT = 62;
-    public static final int IMG_TRI_RUBBER_BOT_RIGHT = 63;
-    public static final int IMG_TRI_RUBBER_TOP_RIGHT = 64;
-    public static final int IMG_TRI_RUBBER_TOP_LEFT = 65;
-    public static final int IMG_TRI_RUBBER_BOT_LEFT = 66;
-    public static final int MAX_TILE_IMAGES = 67;
-    public static final int OPAQUE = -16777216;
-    public static final int BACKGROUND_COLOUR = 11591920;
-    public static final int WATER_COLOUR = 1073328;
-    public static final int MAX_LEVEL = 11;
+    protected Image mGameBuffer;
+    public Graphics mGameGraphics = null;
     private Image[] tileImages;
     private Image tmpTileImage;
     private Graphics tmpTileImageG;
@@ -179,9 +38,9 @@ public abstract class TileCanvas extends FullCanvas {
     public String mLevelNumStr;
     public String mLevelCompletedStr;
     public boolean mLoadLevelFlag;
-    public int mStartPosX;
-    public int mStartPosY;
-    public int mBallSize;
+    public int mStartCol;
+    public int mStartRow;
+    public int mStartBallSize;
     public int mExitPosX;
     public int mExitPosY;
     public short[][] tileMap;
@@ -195,36 +54,19 @@ public abstract class TileCanvas extends FullCanvas {
     public short[][] mMOOffset;
     public Image[] mMOImgPtr;
     public Graphics[] mMOImgGraphics;
-    public boolean[] mMODrawFlag;
     public Image mSpikeImgPtr;
     public Image mUILife;
     public Image mUIRing;
-    public int mTopLeftTileCol;
-    public int mTopLeftTileRow;
-    public int mBotRightTileCol;
-    public int mBotRightTileRow;
+    public int mTopLeftExitTileCol;
+    public int mTopLeftExitTileRow;
     public Image mExitTileImage;
     public Image mImgPtr;
     public int mImageOffset;
     public boolean mOpenFlag;
-    public static final int EXIT_TILE_IMAGE_WIDTH = 24;
-    public static final int EXIT_TILE_IMAGE_HEIGHT = 24;
-    public static final int IMAGE_OFFSET_INC = 4;
-    public static final int FLIP_HORIZONTAL = 0;
-    public static final int FLIP_VERTICAL = 1;
-    public static final int FLIP_BOTH = 2;
-    public static final int ROTATE_90 = 3;
-    public static final int ROTATE_180 = 4;
-    public static final int ROTATE_270 = 5;
-    public static final int STATE_INIT = 0;
-    public static final int STATE_READY = 1;
-    public int mState = 0;
-    public static final int MINIMUMSCROLLDELAY = 40;
     protected int mWidth = 0;
     protected int mHeight = 0;
-    protected boolean mRedrawAll = false;
     protected Display mDisplay;
-    private TileCanvas.GameTimer mGameTimer = null;
+    public TileCanvas.GameTimer mGameTimer = null;
 
     public TileCanvas(Display var1) {
         this.mDisplay = var1;
@@ -234,7 +76,7 @@ public abstract class TileCanvas extends FullCanvas {
         this.divisorLine = 156;
         this.rightDrawEdge = 142;
         this.leftDrawEdge = 14;
-        this.buffer = Image.createImage(156, 96);
+        this.mGameBuffer = Image.createImage(156, 96);
         this.tmpTileImage = Image.createImage(12, 12);
         this.tmpTileImageG = this.tmpTileImage.getGraphics();
         this.loadTileImages();
@@ -259,41 +101,46 @@ public abstract class TileCanvas extends FullCanvas {
         this.mLevelNumStr = Local.getText(14, var5);
         this.mLevelCompletedStr = Local.getText(15, var5);
         var5[0] = null;
-        Object var11 = null;
+        Object var12 = null;
         if (var1 < 10) {
             var4 = "00" + var1;
         } else if (var1 < 100) {
             var4 = "0" + var1;
         }
 
-        InputStream var9 = this.getClass().getResourceAsStream("/levels/J2MElvl." + var4);
-        DataInputStream var10 = new DataInputStream(var9);
-
         try {
-            this.mStartPosX = var10.read();
-            this.mStartPosY = var10.read();
-            this.mBallSize = var10.read();
-            this.mExitPosX = var10.read();
-            this.mExitPosY = var10.read();
-            this.createExitTileObject(this.mExitPosX, this.mExitPosY, this.mExitPosX + 1, this.mExitPosY + 2, this.tileImages[12]);
-            this.mTotalNumRings = var10.read();
-            this.mTileMapWidth = var10.read();
-            this.mTileMapHeight = var10.read();
+            InputStream var10 = this.getClass().getResourceAsStream("/levels/J2MElvl." + var4);
+            DataInputStream var11 = new DataInputStream(var10);
+            this.mStartCol = var11.read();
+            this.mStartRow = var11.read();
+            int var6 = var11.read();
+            if (var6 == 0) {
+                this.mStartBallSize = 12;
+            } else {
+                this.mStartBallSize = 16;
+            }
+
+            this.mExitPosX = var11.read();
+            this.mExitPosY = var11.read();
+            this.createExitTileObject(this.mExitPosX, this.mExitPosY, this.tileImages[12]);
+            this.mTotalNumRings = var11.read();
+            this.mTileMapWidth = var11.read();
+            this.mTileMapHeight = var11.read();
             this.tileMap = new short[this.mTileMapHeight][this.mTileMapWidth];
 
-            for(int var6 = 0; var6 < this.mTileMapHeight; ++var6) {
-                for(int var7 = 0; var7 < this.mTileMapWidth; ++var7) {
-                    this.tileMap[var6][var7] = (short)var10.read();
+            for(int var7 = 0; var7 < this.mTileMapHeight; ++var7) {
+                for(int var8 = 0; var8 < this.mTileMapWidth; ++var8) {
+                    this.tileMap[var7][var8] = (short)var11.read();
                 }
             }
 
-            this.mNumMoveObj = var10.read();
+            this.mNumMoveObj = var11.read();
             if (this.mNumMoveObj != 0) {
-                this.createMovingObj(var10);
+                this.createMovingObj(var11);
             }
 
-            var10.close();
-        } catch (IOException var8) {
+            var11.close();
+        } catch (IOException var9) {
         }
 
     }
@@ -339,7 +186,6 @@ public abstract class TileCanvas extends FullCanvas {
         this.mMOOffset = new short[this.mNumMoveObj][2];
         this.mMOImgPtr = new Image[this.mNumMoveObj];
         this.mMOImgGraphics = new Graphics[this.mNumMoveObj];
-        this.mMODrawFlag = new boolean[this.mNumMoveObj];
 
         for(int var4 = 0; var4 < this.mNumMoveObj; ++var4) {
             this.mMOTopLeft[var4][0] = (short)var1.read();
@@ -352,7 +198,6 @@ public abstract class TileCanvas extends FullCanvas {
             int var3 = var1.read();
             this.mMOOffset[var4][0] = (short)var2;
             this.mMOOffset[var4][1] = (short)var3;
-            this.mMODrawFlag[var4] = true;
         }
 
         this.mSpikeImgPtr = Image.createImage(24, 24);
@@ -378,64 +223,60 @@ public abstract class TileCanvas extends FullCanvas {
 
     public void updateMovingSpikeObj() {
         for(int var1 = 0; var1 < this.mNumMoveObj; ++var1) {
-            int var2 = this.mMOOffset[var1][0];
-            int var3 = this.mMOOffset[var1][1];
+            short var2 = this.mMOTopLeft[var1][0];
+            short var3 = this.mMOTopLeft[var1][1];
+            int var4 = this.mMOOffset[var1][0];
+            int var5 = this.mMOOffset[var1][1];
             this.mMOOffset[var1][0] += this.mMODirection[var1][0];
-            int var6 = (this.mMOBotRight[var1][0] - this.mMOTopLeft[var1][0] - 2) * 12;
-            int var7 = (this.mMOBotRight[var1][1] - this.mMOTopLeft[var1][1] - 2) * 12;
+            int var8 = (this.mMOBotRight[var1][0] - var2 - 2) * 12;
+            int var9 = (this.mMOBotRight[var1][1] - var3 - 2) * 12;
             if (this.mMOOffset[var1][0] < 0) {
                 this.mMOOffset[var1][0] = 0;
-            } else if (this.mMOOffset[var1][0] > var6) {
-                this.mMOOffset[var1][0] = (short)var6;
+            } else if (this.mMOOffset[var1][0] > var8) {
+                this.mMOOffset[var1][0] = (short)var8;
             }
 
-            if (this.mMOOffset[var1][0] == 0 || this.mMOOffset[var1][0] == var6) {
+            if (this.mMOOffset[var1][0] == 0 || this.mMOOffset[var1][0] == var8) {
                 this.mMODirection[var1][0] = (short)(-this.mMODirection[var1][0]);
             }
 
             this.mMOOffset[var1][1] += this.mMODirection[var1][1];
             if (this.mMOOffset[var1][1] < 0) {
                 this.mMOOffset[var1][1] = 0;
-            } else if (this.mMOOffset[var1][1] > var7) {
-                this.mMOOffset[var1][1] = (short)var7;
+            } else if (this.mMOOffset[var1][1] > var9) {
+                this.mMOOffset[var1][1] = (short)var9;
             }
 
-            if (this.mMOOffset[var1][1] == 0 || this.mMOOffset[var1][1] == var7) {
+            if (this.mMOOffset[var1][1] == 0 || this.mMOOffset[var1][1] == var9) {
                 this.mMODirection[var1][1] = (short)(this.mMODirection[var1][1] * -1);
             }
 
-            if (this.mMODrawFlag[var1]) {
-                int var4 = this.mMOOffset[var1][0];
-                int var5 = this.mMOOffset[var1][1];
-                if (var4 < var2) {
-                    short var8 = (short)var4;
-                    var4 = var2;
-                    var2 = var8;
-                }
-
-                if (var5 < var3) {
-                    short var18 = (short)var5;
-                    var5 = var3;
-                    var3 = var18;
-                }
-
-                var4 += 23;
-                var5 += 23;
-                var2 /= 12;
-                var3 /= 12;
-                var4 = var4 / 12 + 1;
-                var5 = var5 / 12 + 1;
-
-                for(int var19 = var2; var19 < var4; ++var19) {
-                    for(int var9 = var3; var9 < var5; ++var9) {
-                        int var10 = this.mMOTopLeft[var1][0] + var19;
-                        int var11 = this.mMOTopLeft[var1][1] + var9;
-                        this.tileMap[var11][var10] = (short)(this.tileMap[var11][var10] | 128);
-                    }
-                }
+            int var6 = this.mMOOffset[var1][0];
+            int var7 = this.mMOOffset[var1][1];
+            if (var6 < var4) {
+                short var10 = (short)var6;
+                var6 = var4;
+                var4 = var10;
             }
 
-            this.mMODrawFlag[var1] = false;
+            if (var7 < var5) {
+                short var18 = (short)var7;
+                var7 = var5;
+                var5 = var18;
+            }
+
+            var6 += 23;
+            var7 += 23;
+            var4 /= 12;
+            var5 /= 12;
+            var6 = var6 / 12 + 1;
+            var7 = var7 / 12 + 1;
+
+            for(int var19 = var4; var19 < var6; ++var19) {
+                for(int var11 = var5; var11 < var7; ++var11) {
+                    this.tileMap[var3 + var11][var2 + var19] = (short)(this.tileMap[var3 + var11][var2 + var19] | 128);
+                }
+            }
         }
 
     }
@@ -451,8 +292,8 @@ public abstract class TileCanvas extends FullCanvas {
     }
 
     public void drawTile(int var1, int var2, int var3, int var4) {
-        if (this.bufferGraphics == null) {
-            this.bufferGraphics = this.buffer.getGraphics();
+        if (this.mGameGraphics == null) {
+            this.mGameGraphics = this.mGameBuffer.getGraphics();
         }
 
         if ((this.tileMap[var2][var1] & 128) != 0) {
@@ -465,76 +306,74 @@ public abstract class TileCanvas extends FullCanvas {
             var5 &= -65;
         }
 
-        this.bufferGraphics.setColor(var6 ? 0x1060B0 : 0xB0E0F0);
+        this.mGameGraphics.setColor(var6 ? 0x1060B0 : 0xB0E0F0);
         switch(var5) {
         case 0:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
             break;
         case 1:
-            this.bufferGraphics.drawImage(this.tileImages[0], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[0], var3, var4, 20);
             break;
         case 2:
-            this.bufferGraphics.drawImage(this.tileImages[1], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[1], var3, var4, 20);
             break;
         case 3:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[6], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[6], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[2], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[2], var3, var4, 20);
             }
             break;
         case 4:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[9], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[9], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[5], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[5], var3, var4, 20);
             }
             break;
         case 5:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[7], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[7], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[3], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[3], var3, var4, 20);
             }
             break;
         case 6:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[8], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[8], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[4], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[4], var3, var4, 20);
             }
             break;
         case 7:
-            this.bufferGraphics.drawImage(this.tileImages[10], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[10], var3, var4, 20);
             break;
         case 8:
-            this.bufferGraphics.drawImage(this.tileImages[11], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[11], var3, var4, 20);
             break;
         case 9:
-            int var12 = (var1 - this.mTopLeftTileCol) * 12;
-            int var13 = (var2 - this.mTopLeftTileRow) * 12;
-            this.bufferGraphics.drawImage(this.mExitTileImage, var3 - var12, var4 - var13, 20);
+            int var12 = (var1 - this.mTopLeftExitTileCol) * 12;
+            int var13 = (var2 - this.mTopLeftExitTileRow) * 12;
+            this.mGameGraphics.setClip(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.mExitTileImage, var3 - var12, var4 - var13, 20);
+            this.mGameGraphics.setClip(0, 0, this.mGameBuffer.getWidth(), this.mGameBuffer.getHeight());
             this.mExitPos = var3 - var12 + 12 - 1;
             break;
         case 10:
             int var7 = this.findSpikeIndex(var1, var2);
             if (var7 != -1) {
-                if (!this.mMODrawFlag[var7]) {
-                    this.mMODrawFlag[var7] = true;
-                }
-
                 int var8 = (var1 - this.mMOTopLeft[var7][0]) * 12;
                 int var9 = (var2 - this.mMOTopLeft[var7][1]) * 12;
                 int var10 = this.mMOOffset[var7][0] - var8;
                 int var11 = this.mMOOffset[var7][1] - var9;
                 if ((var10 <= -36 || var10 >= 12) && (var11 <= -36 || var11 >= 12)) {
-                    this.bufferGraphics.setColor(0xB0E0F0);
-                    this.bufferGraphics.fillRect(var3, var4, 12, 12);
+                    this.mGameGraphics.setColor(0xB0E0F0);
+                    this.mGameGraphics.fillRect(var3, var4, 12, 12);
                 } else {
                     this.tmpTileImageG.setColor(0xB0E0F0);
                     this.tmpTileImageG.fillRect(0, 0, 12, 12);
                     this.tmpTileImageG.drawImage(this.mSpikeImgPtr, var10, var11, 20);
-                    this.bufferGraphics.drawImage(this.tmpTileImage, var3, var4, 20);
+                    this.mGameGraphics.drawImage(this.tmpTileImage, var3, var4, 20);
                 }
             }
         case 11:
@@ -542,190 +381,190 @@ public abstract class TileCanvas extends FullCanvas {
         default:
             break;
         case 13:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[35], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[35], var3, var4, 20);
             this.add2HoopList(this.tileImages[33], var3, var4);
             break;
         case 14:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[36], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[36], var3, var4, 20);
             this.add2HoopList(this.tileImages[34], var3, var4);
             break;
         case 15:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[17], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[17], var3, var4, 20);
             this.add2HoopList(this.tileImages[18], var3, var4);
             break;
         case 16:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[19], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[19], var3, var4, 20);
             this.add2HoopList(this.tileImages[20], var3, var4);
             break;
         case 17:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[43], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[43], var3, var4, 20);
             this.add2HoopList(this.tileImages[41], var3, var4);
             break;
         case 18:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[44], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[44], var3, var4, 20);
             this.add2HoopList(this.tileImages[42], var3, var4);
             break;
         case 19:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[25], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[25], var3, var4, 20);
             this.add2HoopList(this.tileImages[26], var3, var4);
             break;
         case 20:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[27], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[27], var3, var4, 20);
             this.add2HoopList(this.tileImages[28], var3, var4);
             break;
         case 21:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[31], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[31], var3, var4, 20);
             this.add2HoopList(this.tileImages[29], var3, var4);
             break;
         case 22:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[32], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[32], var3, var4, 20);
             this.add2HoopList(this.tileImages[30], var3, var4);
             break;
         case 23:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[13], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[13], var3, var4, 20);
             this.add2HoopList(this.tileImages[14], var3, var4);
             break;
         case 24:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[15], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[15], var3, var4, 20);
             this.add2HoopList(this.tileImages[16], var3, var4);
             break;
         case 25:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[39], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[39], var3, var4, 20);
             this.add2HoopList(this.tileImages[37], var3, var4);
             break;
         case 26:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[40], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[40], var3, var4, 20);
             this.add2HoopList(this.tileImages[38], var3, var4);
             break;
         case 27:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[21], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[21], var3, var4, 20);
             this.add2HoopList(this.tileImages[22], var3, var4);
             break;
         case 28:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[23], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[23], var3, var4, 20);
             this.add2HoopList(this.tileImages[24], var3, var4);
             break;
         case 29:
-            this.bufferGraphics.drawImage(this.tileImages[45], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[45], var3, var4, 20);
             break;
         case 30:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[61], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[61], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[57], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[57], var3, var4, 20);
             }
             break;
         case 31:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[60], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[60], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[56], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[56], var3, var4, 20);
             }
             break;
         case 32:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[59], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[59], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[55], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[55], var3, var4, 20);
             }
             break;
         case 33:
             if (var6) {
-                this.bufferGraphics.drawImage(this.tileImages[62], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[62], var3, var4, 20);
             } else {
-                this.bufferGraphics.drawImage(this.tileImages[58], var3, var4, 20);
+                this.mGameGraphics.drawImage(this.tileImages[58], var3, var4, 20);
             }
             break;
         case 34:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[65], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[65], var3, var4, 20);
             break;
         case 35:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[64], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[64], var3, var4, 20);
             break;
         case 36:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[63], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[63], var3, var4, 20);
             break;
         case 37:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[66], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[66], var3, var4, 20);
             break;
         case 38:
-            this.bufferGraphics.drawImage(this.tileImages[53], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[53], var3, var4, 20);
             break;
         case 39:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[50], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[50], var3, var4, 20);
             break;
         case 40:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[50], 5), var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[50], 5), var3, var4, 20);
             break;
         case 41:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[50], 4), var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[50], 4), var3, var4, 20);
             break;
         case 42:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[50], 3), var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[50], 3), var3, var4, 20);
             break;
         case 43:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(this.tileImages[51], var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(this.tileImages[51], var3, var4, 20);
             break;
         case 44:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[51], 5), var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[51], 5), var3, var4, 20);
             break;
         case 45:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[51], 4), var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[51], 4), var3, var4, 20);
             break;
         case 46:
-            this.bufferGraphics.fillRect(var3, var4, 12, 12);
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[51], 3), var3, var4, 20);
+            this.mGameGraphics.fillRect(var3, var4, 12, 12);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[51], 3), var3, var4, 20);
             break;
         case 47:
-            this.bufferGraphics.drawImage(this.tileImages[52], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[52], var3, var4, 20);
             break;
         case 48:
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[52], 5), var3, var4, 20);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[52], 5), var3, var4, 20);
             break;
         case 49:
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[52], 4), var3, var4, 20);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[52], 4), var3, var4, 20);
             break;
         case 50:
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[52], 3), var3, var4, 20);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[52], 3), var3, var4, 20);
             break;
         case 51:
-            this.bufferGraphics.drawImage(this.tileImages[54], var3, var4, 20);
+            this.mGameGraphics.drawImage(this.tileImages[54], var3, var4, 20);
             break;
         case 52:
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[54], 5), var3, var4, 20);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[54], 5), var3, var4, 20);
             break;
         case 53:
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[54], 4), var3, var4, 20);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[54], 4), var3, var4, 20);
             break;
         case 54:
-            this.bufferGraphics.drawImage(manipulateImage(this.tileImages[54], 3), var3, var4, 20);
+            this.mGameGraphics.drawImage(manipulateImage(this.tileImages[54], 3), var3, var4, 20);
         }
 
     }
@@ -1019,12 +858,10 @@ public abstract class TileCanvas extends FullCanvas {
         return var1 < 67 ? this.tileImages[var1] : null;
     }
 
-    public void createExitTileObject(int var1, int var2, int var3, int var4, Image var5) {
-        this.mTopLeftTileCol = var1;
-        this.mTopLeftTileRow = var2;
-        this.mBotRightTileCol = var3;
-        this.mBotRightTileRow = var4;
-        this.mImgPtr = var5;
+    public void createExitTileObject(int var1, int var2, Image var3) {
+        this.mTopLeftExitTileCol = var1;
+        this.mTopLeftExitTileRow = var2;
+        this.mImgPtr = var3;
         this.mExitTileImage = Image.createImage(24, 24);
         this.mImageOffset = 0;
         this.repaintExitTile();
